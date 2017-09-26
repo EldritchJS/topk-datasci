@@ -1,6 +1,7 @@
 import argparse
 import os
 import numpy as np
+import time
 from kafka import KafkaProducer
 
 # Segments and probabilities of each
