@@ -142,7 +142,7 @@ servers = os.getenv('SERVERS', args.servers).split(',')
 topic = os.getenv('TOPIC', args.topic)
 
 producer = KafkaProducer(bootstrap_servers=servers)
-conn = stomp.Connection()
+conn = stomp.Connection(host_and_ports=[('broker-amq-stomp',61613)])
 conn.start()
 conn.connect('daikon', 'daikon', wait=True)
 
