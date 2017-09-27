@@ -2,6 +2,7 @@ import argparse
 import os
 import numpy as np
 import time
+import stomp
 from kafka import KafkaProducer
 
 # Segments and probabilities of each
@@ -141,8 +142,12 @@ servers = os.getenv('SERVERS', args.servers).split(',')
 topic = os.getenv('TOPIC', args.topic)
 
 producer = KafkaProducer(bootstrap_servers=servers)
+conn = stomp.Connection()
+conn.start()
+conn.connect('daikon', 'daikon', wait=True)
 
 while True:
     product = np.random.choice(products, p=productProb)
     producer.send(topic, product)
+    conn.send('/queue/salesQ', product)
     time.sleep(1.0)
